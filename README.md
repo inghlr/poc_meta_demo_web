@@ -1,16 +1,82 @@
-# React + Vite
+# Poc Meta Web Demo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend en React + Vite para:
+- UI de CRUD (siguiente fase)
+- formulario de agenda de cita de venta
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20+ (recomendado 22.x)
+- npm 10+
+- API backend corriendo (ver `poc_meta_api_demo`)
 
-## React Compiler
+## Ejecutar frontend (desarrollo)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Ir a la carpeta del proyecto:
+   - `cd f:\Projects\EXTERNAL\poc_meta_web_demo`
+2. Instalar dependencias:
+   - `npm install`
+3. Crear variables de entorno:
+   - copiar `.env.example` a `.env`
+4. Ejecutar:
+   - `npm run dev`
 
-## Expanding the ESLint configuration
+Vite mostrara la URL local, normalmente:
+- `http://localhost:5173`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Puertos y donde configurarlos
+
+Puerto por defecto del frontend:
+- `5173`
+
+Opciones para cambiar puerto del frontend:
+- Por comando:
+  - `npm run dev -- --port 5174`
+- En [vite.config.js](f:\Projects\EXTERNAL\poc_meta_web_demo\vite.config.js):
+  - `server.port = 5174`
+
+Puerto esperado del backend:
+- `5095` (HTTP)
+
+Donde se configura el backend para el FE:
+- Proxy local en [vite.config.js](f:\Projects\EXTERNAL\poc_meta_web_demo\vite.config.js):
+  - `/api` -> `http://localhost:5095`
+- Variable `VITE_API_BASE_URL` en `.env`
+
+## Variables de entorno
+
+Archivo de referencia:
+- [.env.example](f:\Projects\EXTERNAL\poc_meta_web_demo\.env.example)
+
+Comportamiento:
+- Si `VITE_API_BASE_URL` esta vacia, el FE usa rutas relativas `/api/*` y Vite proxy en local.
+- Si `VITE_API_BASE_URL` tiene valor, el FE llama ese host directamente.
+
+Ejemplo para entorno remoto:
+- `VITE_API_BASE_URL=https://mi-api-demo.com`
+
+## Integracion con API
+
+Endpoint usado por el formulario:
+- `POST /api/v1/sales-appointments`
+
+Campos enviados:
+- `fullName`
+- `phone`
+- `email`
+- `productName`
+- `preferredDate`
+- `preferredTime`
+- `notes`
+
+## Scripts disponibles
+
+- `npm run dev`
+- `npm run build`
+- `npm run preview`
+- `npm run lint`
+
+## Build produccion
+
+- `npm run build`
+- salida en carpeta `dist/`
